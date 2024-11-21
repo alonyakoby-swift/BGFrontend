@@ -1,0 +1,31 @@
+[
+  {
+    "title": "Home Page",
+    "url": "/"
+  },
+
+  {
+    "title": "Blank",
+    "url": "/pages/blank-page"
+  },
+
+  {
+    "title": "Users",
+    "url": "/users"
+  },
+
+  {
+    "title": "Products",
+    "url": "/products"
+  },
+
+  {
+    "title": "Exceptions",
+    "url": "/settings/exceptions"
+  },
+
+  {
+    "title": "404 Error Page",
+    "url": "/pages/error-404"
+  }
+]
