@@ -1,7 +1,7 @@
 class AuthService {
     constructor() {
-        // this.baseURL = 'https://api.oekfb.eu/';
-        this.baseURL = "http://localhost:8080"; // Uncomment for local development
+        this.baseURL = "https://bg-app-javk6.ondigitalocean.app/";
+        // this.baseURL = "http://localhost:8080"; // Uncomment for local development
     }
 
     /**

@@ -1,6 +1,7 @@
 class ApiService {
     constructor() {
-        this.baseURL = "http://localhost:8080";
+        this.baseURL = "https://bg-app-javk6.ondigitalocean.app/";
+        // this.baseURL = "http://localhost:8080";
     }
 
     async request(method, endpoint, body = null, headers = {}) {
