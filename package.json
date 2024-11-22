@@ -90,6 +90,11 @@
       "last 1 safari version"
     ]
   },
+  "resolutions": {
+    "antd": "^4.19.0",
+    "@craco/craco": "^6.4.5",
+    "craco-less": "^2.0.0"
+  },
   "engines": {
     "node": "20.15.0",
     "yarn": "1.22.19"
