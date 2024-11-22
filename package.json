@@ -70,7 +70,8 @@
     "redux-thunk": "^2.3.0",
     "reqwest": "^2.0.5",
     "swiper": "^9.4.1",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "serve -s build",
