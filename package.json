@@ -97,8 +97,8 @@
     "craco-less": "^2.0.0"
   },
   "engines": {
-    "node": "20.x",
-    "yarn": "1.x"
+    "node": "20.15.0",
+    "yarn": "1.22.19"
   },
   "devDependencies": {
     "react-error-overlay": "6.0.9"
