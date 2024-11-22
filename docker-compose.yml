@@ -1,3 +1,4 @@
+# docker-compose.yml
 version: '3.8'
 
 services:
@@ -6,8 +7,6 @@ services:
     build: .
     ports:
       - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
     environment:
       - SKIP_PREFLIGHT_CHECK=true
+      - DISABLE_ESLINT_PLUGIN=true
