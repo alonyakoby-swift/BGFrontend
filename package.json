@@ -98,7 +98,7 @@
   "engines": {
     "node": "20.15.0",
     "yarn": "1.22.19",
-    "npm": "10.9.1"
+    "npm": "10.7.0"
   },
   "devDependencies": {
     "react-error-overlay": "6.0.9"
