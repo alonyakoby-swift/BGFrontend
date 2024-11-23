@@ -163,7 +163,7 @@ export default function ProductDetail() {
     const handleAIVerify = async (record) => {
         setTableLoading(true);
         try {
-            await translationController.verifyTranslation(record.id);
+            await translationController.verifyTranslatiod(record.id);
             await fetchProduct();
         } catch (error) {
             console.error("Failed to verify translation:", error);
