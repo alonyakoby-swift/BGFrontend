@@ -58,7 +58,7 @@ const PagesRoutes = [
   {
     path: "/users",
     exact: true,
-    component: lazy(() => import("../../view/pages/users")),
+    component: lazy(() => import("../../view/pages/users/index")),
     layout: "VerticalLayout",
   },
 

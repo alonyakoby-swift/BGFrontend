@@ -7,20 +7,11 @@ class UserController {
 
     /**
      * Sign up a new user
-     * @param {string} firstName - User's first name
-     * @param {string} lastName - User's last name
-     * @param {string} email - User's email address
-     * @param {string} password - User's password
+     * @param {json} data- A Json body of the user
      * @returns {Promise<Object>} New session with token and public user data
      */
-    async signup(firstName, lastName, email, password) {
-        const userSignup = {
-            firstName,
-            lastName,
-            email,
-            password
-        };
-        return this.apiService.post('users', userSignup);
+    async createUser(data) {
+        return this.apiService.post('users', data);
     }
 
     /**
@@ -90,6 +81,17 @@ class UserController {
     async deleteUser(userId) {
         return this.apiService.delete(`users/${userId}`);
     }
+
+    /**
+     * Search users by query
+     * @param {Object} queryParams - The query parameters for the search
+     * @returns {Promise<Array<Object>>} Array of user objects
+     */
+    async searchUsers(queryParams) {
+        const queryString = new URLSearchParams(queryParams).toString();
+        return this.apiService.get(`users/search?${queryString}`);
+    }
+
 }
 
 export default UserController;

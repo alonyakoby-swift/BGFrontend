@@ -7,12 +7,6 @@ const pages = [
     header: <IntlMessages id="sidebar-pages" />,
   },
   {
-    id: 'blank-page',
-    title: <IntlMessages id="sidebar-pages-blank-page" />,
-    icon: <i className="ph-fill ph-note-blank" />,
-    navLink: '/pages/blank-page',
-  },
-  {
     id: 'dashboard',
     title: <IntlMessages id="sidebar-pages-dashboard" />,
     icon: <i className="ph-fill ph-note-blank" />,
@@ -24,24 +18,18 @@ const pages = [
     icon: <i className="ph-fill ph-file-x" />,
     navLink: '/products',
   },
-
   {
-    id: 'settings',
-    title: <IntlMessages id="sidebar-pages-settings" />,
+    id: 'exceptions-page',
+    title: <IntlMessages id="sidebar-pages-exceptions" />,
     icon: <i className="ph-fill ph-file-x" />,
-    children: [
-      {
-        id: 'exceptions-page',
-        title: <IntlMessages id="sidebar-pages-exceptions" />,
-        navLink: 'settings/exceptions',
-      },
-      {
-        id: 'users-page',
-        title: <IntlMessages id="sidebar-pages-users" />,
-        navLink: '/users/',
-      },
-    ],
+    navLink: '/exceptions',
   },
+  {
+    id: 'users-page',
+    title: <IntlMessages id="sidebar-pages-users" />,
+    icon: <i className="ph-fill ph-file-x" />,
+    navLink: '/users',
+  }
 ];
 
 export default pages;

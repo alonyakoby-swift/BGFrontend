@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductController from "../../../network/gateway/ProductController";
 import TranslationController from "../../../network/gateway/TranslationController";
+
 import {
     Row,
     Col,
@@ -134,6 +135,7 @@ export default function ProductDetail() {
                         <Button
                             icon={<CopyOutlined />}
                             onClick={() => handleCopyToClipboard(record.translation)}
+                            disabled={!record.translation}
                         />
                     </Tooltip>
                     <Tooltip title="Override Translation">
