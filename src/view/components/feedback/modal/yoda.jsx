@@ -82,7 +82,7 @@ export default function YodaModal() {
         <Col className="hp-mb-16" span={24}>
           <Row>
             <Col lg={12} span={20}>
-              <h4>Yoda Modal</h4>
+              <h4>Modal</h4>
               <p className="hp-p1-body">Special modals.</p>
             </Col>
 
