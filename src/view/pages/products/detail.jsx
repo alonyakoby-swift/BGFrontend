@@ -38,6 +38,8 @@ export default function ProductDetail() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [currentTranslation, setCurrentTranslation] = useState(null);
     const [updatedTranslation, setUpdatedTranslation] = useState("");
+    const [translateAllLoading, setTranslateAllLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("");
 
     const productController = new ProductController();
     const translationController = new TranslationController();
@@ -60,7 +62,7 @@ export default function ProductDetail() {
     if (loading) {
         return (
             <Row justify="center" style={{ marginTop: "20px" }}>
-                <Spin size="large" />
+                <Spin size="large" tip={loadingMessage || "Loading..."} />
             </Row>
         );
     }
@@ -80,6 +82,17 @@ export default function ProductDetail() {
             title: "Language",
             dataIndex: "language",
             key: "language",
+            render: (text, record) => (
+                <div>
+                    {record.verification ? (
+                        <span>
+                            {text} <CheckOutlined style={{ color: 'green' }} />
+                        </span>
+                    ) : (
+                        <span>{text}</span>
+                    )}
+                </div>
+            ),
         },
         {
             title: "Translation",
@@ -98,7 +111,6 @@ export default function ProductDetail() {
                             This translation was last overridden by -
                         </div>
                     )}
-
                 </div>
             ),
         },
@@ -111,6 +123,7 @@ export default function ProductDetail() {
             title: "Rating",
             dataIndex: "rating",
             key: "rating",
+            render: (rating) => `${rating}/10`,
         },
         {
             title: "Actions",
@@ -152,14 +165,33 @@ export default function ProductDetail() {
     ];
 
     const handleTranslate = async (record) => {
-        setTableLoading(true);
         try {
             await productController.translateProductDescription(record.id, record.language, id);
             await fetchProduct();
         } catch (error) {
             console.error("Failed to translate product description:", error);
         }
-        setTableLoading(false);
+    };
+
+    const handleTranslateAll = async () => {
+        setTranslateAllLoading(true);
+        const selectedTranslations = translations.filter(
+            (translation) => selectedRowKeys.includes(translation.id) && (!translation.translation || translation.translation === "")
+        );
+
+        try {
+            for (let i = 0; i < selectedTranslations.length; i++) {
+                setLoadingMessage(
+                    `${i + 1}/${selectedTranslations.length} - Translating ${selectedTranslations[i].language}`
+                );
+                await handleTranslate(selectedTranslations[i]);
+            }
+            setLoadingMessage(""); // Clear the message once translation is complete
+        } catch (error) {
+            console.error("Failed to translate selected product descriptions:", error);
+        }
+
+        setTranslateAllLoading(false);
     };
 
     const handleAIVerify = async (record) => {
@@ -200,7 +232,6 @@ export default function ProductDetail() {
 
         setLoading(true);
         try {
-            // Prepare the updated translation data
             const updatedTranslationData = {
                 verification: currentTranslation.verification,
                 overriden_by: currentTranslation.overriden_by,
@@ -218,9 +249,8 @@ export default function ProductDetail() {
                 prompt: currentTranslation.prompt,
             };
 
-            // Update the translation using the TranslationController
             await translationController.updateTranslation(currentTranslation.id, updatedTranslationData);
-            await fetchProduct(); // Refresh the product data to reflect the update
+            await fetchProduct();
 
             message.success("Translation updated successfully!");
         } catch (error) {
@@ -321,6 +351,16 @@ export default function ProductDetail() {
                                         icon={<ExportOutlined />}
                                     >
                                         Export
+                                    </Button>
+                                    <Button
+                                        type="primary"
+                                        onClick={handleTranslateAll}
+                                        disabled={!hasSelected || translateAllLoading}
+                                        loading={translateAllLoading}
+                                        icon={<TranslationOutlined />}
+                                        style={{ marginLeft: "8px" }}
+                                    >
+                                        Translate Selected Languages
                                     </Button>
                                     <span className="hp-ml-8">
                                         {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
