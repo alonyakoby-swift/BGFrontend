@@ -23,13 +23,13 @@ export default function VerticalLayout(props) {
     <Layout className="hp-app-layout">
       <Sidebar visible={visible} setVisible={setVisible} />
 
-      <Layout className="hp-bg-black-10 hp-bg-color-dark-90">
-        <MenuHeader setVisible={setVisible} />
+      <Layout className="hp-bg-black-10 hp-bg-color-dark-90" style={{marginTop: "40px"}}>
+        {/*<MenuHeader setVisible={setVisible} />*/}
 
         <Content className="hp-content-main">
           <Row justify="center" gap={16}>
             {customise.contentWidth === 'full' && (
-              <Col xxl={17} xl={22} span={24}>
+              <Col xxl={22} xl={22} span={24}>
                 {children}
               </Col>
             )}

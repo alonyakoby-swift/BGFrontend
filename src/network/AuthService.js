@@ -1,7 +1,10 @@
+// AuthService.js
+import { message } from 'antd';
+
 class AuthService {
     constructor() {
-        // this.baseURL = "https://bg-app-javk6.ondigitalocean.app/";
-        this.baseURL = "http://localhost:8080"; // Uncomment for local development
+        this.baseURL = "https://bg-app-javk6.ondigitalocean.app/";
+        // this.baseURL = "http://localhost:8080"; // Uncomment for local development
     }
 
     /**
@@ -35,9 +38,11 @@ class AuthService {
                 }
 
                 const userId = data.user.id;
+                const name = data.user.name;
+                const profileimage = data.user.image;
 
                 if (userId) {
-                    this.setAuthCookies(userId, data.token)
+                    this.setAuthCookies(userId, token, name, profileimage);
                     // Return user data without setting cookies directly
                     return { success: true, user: data.user, token: token };
                 } else {
@@ -57,13 +62,17 @@ class AuthService {
      * Set authentication cookies based on the provided token and user ID.
      * @param {string} userId - The ID of the user.
      * @param {string} token - The authentication token.
+     * @param {string} name - The user's name.
+     * @param {string} profileimage - The profile image URL.
      */
-    setAuthCookies(userId, token) {
+    setAuthCookies(userId, token, name, profileimage) {
         const secureAttribute = window.location.protocol === 'https:' ? '; secure' : '';
         const cookieOptions = `path=/; max-age=${7 * 24 * 60 * 60}; samesite=strict${secureAttribute}`;
 
-        document.cookie = `adminID=${userId}; ${cookieOptions}`;
-        document.cookie = `authToken=${token}; ${cookieOptions}`;
+        document.cookie = `adminID=${encodeURIComponent(userId)}; ${cookieOptions}`;
+        document.cookie = `authToken=${encodeURIComponent(token)}; ${cookieOptions}`;
+        document.cookie = `userName=${encodeURIComponent(name)}; ${cookieOptions}`;
+        document.cookie = `userImg=${encodeURIComponent(profileimage)}; ${cookieOptions}`;
     }
 
     /**
@@ -73,7 +82,7 @@ class AuthService {
      */
     getCookie(name) {
         const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        if (match) return match[2];
+        if (match) return decodeURIComponent(match[2]);
         return null;
     }
 
@@ -81,7 +90,7 @@ class AuthService {
      * Get the user ID stored in cookies.
      * @returns {string|null} - The user ID, or null if not found.
      */
-    getTUserID() {
+    getUserID() {
         return this.getCookie('adminID');
     }
 
@@ -94,12 +103,28 @@ class AuthService {
     }
 
     /**
+     * Get the user's name stored in cookies.
+     * @returns {string|null} - The user's name, or null if not found.
+     */
+    getUserName() {
+        return this.getCookie('userName');
+    }
+
+    /**
+     * Get the user's profile image URL stored in cookies.
+     * @returns {string|null} - The profile image URL, or null if not found.
+     */
+    getUserImg() {
+        return this.getCookie('userImg');
+    }
+
+    /**
      * Check if the user is authenticated.
      * @returns {boolean} - True if authenticated, false otherwise.
      */
     isAuthenticated() {
-        const adminID = this.getCookie('adminID');
-        const authToken = this.getCookie('authToken');
+        const adminID = this.getUserID();
+        const authToken = this.getAuthToken();
         return !!(adminID && authToken);
     }
 
@@ -107,8 +132,13 @@ class AuthService {
      * Log out the user by clearing authentication cookies.
      */
     logoutUser() {
-        document.cookie = 'authToken=; path=/; max-age=0; secure; samesite=strict';
-        document.cookie = 'adminID=; path=/; max-age=0; secure; samesite=strict';
+        const secureAttribute = window.location.protocol === 'https:' ? '; secure' : '';
+        const cookieOptions = 'path=/; max-age=0; samesite=strict' + secureAttribute;
+
+        document.cookie = 'authToken=; ' + cookieOptions;
+        document.cookie = 'adminID=; ' + cookieOptions;
+        document.cookie = 'userName=; ' + cookieOptions;
+        document.cookie = 'userImg=; ' + cookieOptions;
     }
 }
 
