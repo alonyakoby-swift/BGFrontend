@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Row, Col, Form, Input, Button, Checkbox, message } from "antd";
-import LeftContent from "../leftContent";
-import Footer from "../footer";
-import { useAuth } from "../../../../network/authContext";
+// Login.js
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { Row, Col, Form, Input, Button, Checkbox, message } from 'antd';
+import LeftContent from '../leftContent';
+import Footer from '../footer';
+import { useAuth } from '../../../../network/authContext';
 
+/**
+ * Login component for user authentication.
+ * @returns {JSX.Element} - The Login component.
+ */
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -12,7 +17,7 @@ const Login = () => {
 
   useEffect(() => {
     if (!authLoading && isAuthenticated) {
-      history.push('/');
+      history.push('/dashboard');
     }
   }, [isAuthenticated, authLoading, history]);
 

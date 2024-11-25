@@ -37,6 +37,7 @@ class AuthService {
                 const userId = data.user.id;
 
                 if (userId) {
+                    this.setAuthCookies(userId, data.token)
                     // Return user data without setting cookies directly
                     return { success: true, user: data.user, token: token };
                 } else {
@@ -96,15 +97,10 @@ class AuthService {
      * Check if the user is authenticated.
      * @returns {boolean} - True if authenticated, false otherwise.
      */
-    // isAuthenticated() {
-    //     const adminID = this.getCookie('adminID');
-    //     const authToken = this.getCookie('authToken');
-    //     return !!(adminID && authToken);
-    // }
     isAuthenticated() {
-        // Implement actual authentication check here
-        // return !!(this.getTUserID() && this.getAuthToken());
-        return true
+        const adminID = this.getCookie('adminID');
+        const authToken = this.getCookie('authToken');
+        return !!(adminID && authToken);
     }
 
     /**

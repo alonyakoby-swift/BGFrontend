@@ -1,19 +1,17 @@
 // Router.js
-import React, { Suspense, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../redux/customise/customiseActions';
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { Routes } from './routes';
 import VerticalLayout from '../layout/VerticalLayout';
 import HorizontalLayout from '../layout/HorizontalLayout';
 import FullLayout from '../layout/FullLayout';
 import Error404 from '../view/pages/errors/404';
-import Exceptions from '../view/pages/exceptions';
-import Login from "../view/pages/authentication/login";
-import { AuthProvider } from "../network/authContext";
-import PrivateRoute from "../network/privateRoute";
-import Home from "../view/home";
+import Login from '../view/pages/authentication/login';
+import { useAuth } from '../network/authContext';
+import PrivateRoute from '../network/privateRoute';
+import PublicRoute from '../network/publicRoute';
 
 /**
  * Main Router component to define the application's routing structure.
@@ -22,7 +20,8 @@ import Home from "../view/home";
 export default function Router() {
   const customise = useSelector((state) => state.customise);
   const dispatch = useDispatch();
-  const location = useHistory();
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   let themeLocal;
 
@@ -38,7 +37,7 @@ export default function Router() {
       document.querySelector('body').classList.add(customise.theme);
       dispatch(theme(customise.theme));
     }
-  }, []);
+  }, [customise.theme, dispatch]);
 
   useEffect(() => {
     if (customise.direction === 'ltr') {
@@ -46,23 +45,23 @@ export default function Router() {
     } else if (customise.direction === 'rtl') {
       document.querySelector('html').setAttribute('dir', 'rtl');
     }
-  }, []);
+  }, [customise.direction]);
 
   useEffect(() => {
-    if (location.location.search === '?theme=dark') {
+    if (location.search === '?theme=dark') {
       localStorage.setItem('theme', 'dark');
       themeLocal = 'dark';
-    } else if (location.location.search === '?theme=light') {
+    } else if (location.search === '?theme=light') {
       localStorage.setItem('theme', 'light');
       themeLocal = 'light';
     }
 
-    if (location.location.search === '?direction=ltr') {
+    if (location.search === '?direction=ltr') {
       document.querySelector('html').setAttribute('dir', 'ltr');
-    } else if (location.location.search === '?direction=rtl') {
+    } else if (location.search === '?direction=rtl') {
       document.querySelector('html').setAttribute('dir', 'rtl');
     }
-  }, []);
+  }, [location.search]);
 
   const DefaultLayout = customise.layout;
   const Layouts = { VerticalLayout, HorizontalLayout, FullLayout };
@@ -127,40 +126,22 @@ export default function Router() {
   };
 
   return (
-      <AuthProvider>
-        <BrowserRouter>
-          <Switch>
-            {ResolveRoutes()}
+      <Switch>
+        {/* Public Route for Login */}
+        <PublicRoute restricted={true} component={Login} path="/login" exact />
 
-            <Route
-                exact
-                path={'/'}
-                render={() => {
-                  return DefaultLayout === 'HorizontalLayout' ? (
-                      <Layouts.HorizontalLayout>
-                        <Login />
-                      </Layouts.HorizontalLayout>
-                  ) : (
-                      <Layouts.FullLayout>
-                        <Login />
-                      </Layouts.FullLayout>
-                  );
-                }}
-            />
+        {/* Private Routes */}
+        {ResolveRoutes()}
 
-            {/*<PrivateRoute path="/admin" component={AdminPanel} />*/}
-            {/*<PrivateRoute path="/home" component={Home} />*/}
+        {/* Redirect to dashboard if authenticated */}
+        <Route exact path="/">
+          {isAuthenticated ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+        </Route>
 
-            {/*<PrivateRoute path="/admin/user_detail/:id" component={UserDetail} />*/}
-
-            {/* Add more PrivateRoutes as needed */}
-
-            <Route path="*">
-              <Error404 />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </AuthProvider>
+        {/* 404 Page */}
+        <Route path="*">
+          <Error404 />
+        </Route>
+      </Switch>
   );
 }
-

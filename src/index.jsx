@@ -1,8 +1,7 @@
+// index.js
 import React, { Suspense } from 'react';
-
 import { BrowserRouter } from 'react-router-dom';
-import ReactDOM from 'react-dom';
-
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
@@ -11,13 +10,15 @@ import './assets/less/yoda-theme.less';
 
 import App from './App';
 
-ReactDOM.render(
-  <Suspense fallback="loading">
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </Suspense>,
-  document.getElementById('root')
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
+    <Suspense fallback="loading">
+        <Provider store={store}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </Provider>
+    </Suspense>
 );
