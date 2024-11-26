@@ -4,7 +4,7 @@ import { message } from 'antd';
 class AuthService {
     constructor() {
         this.baseURL = "https://bg-app-javk6.ondigitalocean.app/";
-        // this.baseURL = "http://localhost:8080"; // Uncomment for local development
+        // this.baseURL = "http://localhost:8080";
     }
 
     /**
@@ -40,9 +40,10 @@ class AuthService {
                 const userId = data.user.id;
                 const name = data.user.name;
                 const profileimage = data.user.image;
+                const type = data.user.type;
 
                 if (userId) {
-                    this.setAuthCookies(userId, token, name, profileimage);
+                    this.setAuthCookies(userId, token, name, profileimage, type);
                     // Return user data without setting cookies directly
                     return { success: true, user: data.user, token: token };
                 } else {
@@ -64,8 +65,9 @@ class AuthService {
      * @param {string} token - The authentication token.
      * @param {string} name - The user's name.
      * @param {string} profileimage - The profile image URL.
-     */
-    setAuthCookies(userId, token, name, profileimage) {
+     * @param {string} type - The User Type.
+     * */
+    setAuthCookies(userId, token, name, profileimage, type) {
         const secureAttribute = window.location.protocol === 'https:' ? '; secure' : '';
         const cookieOptions = `path=/; max-age=${7 * 24 * 60 * 60}; samesite=strict${secureAttribute}`;
 
@@ -73,6 +75,7 @@ class AuthService {
         document.cookie = `authToken=${encodeURIComponent(token)}; ${cookieOptions}`;
         document.cookie = `userName=${encodeURIComponent(name)}; ${cookieOptions}`;
         document.cookie = `userImg=${encodeURIComponent(profileimage)}; ${cookieOptions}`;
+        document.cookie = `userType=${encodeURIComponent(type)}; ${cookieOptions}`;
     }
 
     /**
@@ -117,6 +120,15 @@ class AuthService {
     getUserImg() {
         return this.getCookie('userImg');
     }
+
+    /**
+     * Get the user's Type in cookies.
+     * @returns {string|null} - The type string, or null if not found.
+     */
+    getUserType() {
+        return this.getCookie('userType');
+    }
+
 
     /**
      * Check if the user is authenticated.

@@ -3,7 +3,7 @@ import React from "react";
 import { Col, Avatar, Badge, Menu } from "antd";
 import {
   User,
-  Notification,
+  Lock,
   Activity,
   Setting,
   Password,
@@ -83,28 +83,22 @@ export default function MenuProfile(props) {
             </Menu.Item>
 
             <Menu.Item
-                key="notifications"
-                icon={<Notification set="curved" className={menuIconClass} />}
-                onClick={() => setCurrentSection("notifications")}
+                key="permissions"
+                icon={<Lock set="curved" className={menuIconClass} />}
+                onClick={() => setCurrentSection("permissions")}
             >
-              Notifications
+              Permissions
             </Menu.Item>
 
-            <Menu.Item
-                key="password-change"
-                icon={<Password set="curved" className={menuIconClass} />}
-                onClick={() => setCurrentSection("password-change")}
-            >
-              Password Change
-            </Menu.Item>
+            {/*<Menu.Item*/}
+            {/*    key="password-change"*/}
+            {/*    icon={<Password set="curved" className={menuIconClass} />}*/}
+            {/*    onClick={() => setCurrentSection("password-change")}*/}
+            {/*>*/}
+            {/*  Password Change*/}
+            {/*</Menu.Item>*/}
           </Menu>
         </div>
-
-        {props.footer !== "none" && (
-            <div className="hp-profile-menu-footer">
-              <img src={menuImg} alt="Profile Image" />
-            </div>
-        )}
       </Col>
   );
 }

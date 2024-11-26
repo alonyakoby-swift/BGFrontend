@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
                 id: authService.getUserID(),
                 name: authService.getUserName(),
                 image: authService.getUserImg(),
+                type: authService.getUserType(),
             };
             setUser(userData);
         } else {
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
                 id: result.user.id,
                 name: result.user.name,
                 image: result.user.image,
+                type: result.user.type,
             });
         } else {
             message.error(result.message);

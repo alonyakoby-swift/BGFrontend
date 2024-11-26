@@ -1,20 +1,18 @@
-// Profile.js
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Row, Col, Drawer, Button, Dropdown, Menu, Spin } from "antd";
+import { Row, Col, Drawer, Button, Dropdown, Menu, Spin, notification } from "antd";
 import { RiMore2Line, RiMenuFill, RiCloseFill } from "react-icons/ri";
 
 import Breadcrumbs from "../../../layout/components/content/breadcrumbs";
-import ActionButton from "../../../layout/components/content/action-button";
 import InfoProfile from "./personel-information";
-import NotificationsProfile from "./notifications";
 import MenuProfile from "./menu";
 import ActivityProfile from "./activity";
 import SecurityProfile from "./security";
 import PasswordProfile from "./password-change";
 import SocialProfile from "./connect-with-social";
 
-import UserController from "../../../network/gateway/UserController"; // Assuming UserController is the user API
+import UserController from "../../../network/gateway/UserController";
+import Permissions from "./permissions";
 
 export default function Profile() {
     const { id } = useParams(); // Get userId from URL params
@@ -24,15 +22,19 @@ export default function Profile() {
     const [loading, setLoading] = useState(true); // Loading state to manage user fetching
     const [error, setError] = useState(null); // Error state to handle fetching issues
 
+    const userController = new UserController(); // Instantiate UserController
+
+    // State to track permission changes or other updated user details
+    const [updatedUserDetails, setUpdatedUserDetails] = useState(null);
+
     // Fetch user details on load
     useEffect(() => {
-        const userController = new UserController();
         async function fetchUserDetails() {
             try {
                 setLoading(true); // Start loading
-                console.log(id)
                 const fetchedUser = await userController.getUserById(id);
                 setUserDetails(fetchedUser);
+                setUpdatedUserDetails(fetchedUser); // Initialize updated details
             } catch (error) {
                 console.error("Failed to fetch user details", error);
                 setError("Failed to load user details. Please try again later.");
@@ -66,13 +68,43 @@ export default function Profile() {
         );
     }
 
+    // Callback for when permissions are updated
+    const handlePermissionsChange = (updatedPermissions) => {
+        setUpdatedUserDetails((prevDetails) => ({
+            ...prevDetails,
+            permissions: updatedPermissions,
+        }));
+    };
+
+    // Function to update user details
+    const handleUpdateUser = async () => {
+        try {
+            await userController.updateUser(id, updatedUserDetails);
+            notification.success({
+                message: "User Updated",
+                description: "User details have been successfully updated.",
+            });
+        } catch (error) {
+            console.error("Failed to update user details", error);
+            notification.error({
+                message: "Update Failed",
+                description: "Failed to update user details. Please try again later.",
+            });
+        }
+    };
+
     // Function to render the current section
     const renderSection = () => {
         switch (currentSection) {
             case "personel-information":
                 return <InfoProfile userDetails={userDetails} />;
-            case "notifications":
-                return <NotificationsProfile userDetails={userDetails} />;
+            case "permissions":
+                return (
+                    <Permissions
+                        userDetails={userDetails}
+                        onPermissionsChange={handlePermissionsChange}
+                    />
+                );
             case "activity":
                 return <ActivityProfile userDetails={userDetails} />;
             case "security":
@@ -134,7 +166,9 @@ export default function Profile() {
             <Col span={24}>
                 <Row gutter={[32, 32]} justify="space-between">
                     <Breadcrumbs breadCrumbParent="Pages" breadCrumbActive="Profile" />
-                    <ActionButton />
+                    <Button type="primary" onClick={handleUpdateUser}>
+                        Update User
+                    </Button>
                 </Row>
             </Col>
 

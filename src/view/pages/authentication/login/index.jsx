@@ -51,7 +51,7 @@ const Login = () => {
             >
               <h1 className="hp-mb-sm-0">Login</h1>
               <p className="hp-mt-sm-0 hp-mt-8 hp-text-color-black-60">
-                Willkommen zurück, bitte melden Sie sich bei Ihrem Konto an.
+                Welcome, login with your Administrator assigned password.
               </p>
 
               <Form
@@ -64,7 +64,7 @@ const Login = () => {
                 <Form.Item
                     label="Username :"
                     name="username"
-                    rules={[{ required: true, message: 'Bitte geben Sie Ihre Email ein' }]}
+                    rules={[{ required: true, message: 'Please enter your Email Address.' }]}
                     className="hp-mb-16"
                 >
                   <Input />
@@ -73,28 +73,15 @@ const Login = () => {
                 <Form.Item
                     label="Password :"
                     name="password"
-                    rules={[{ required: true, message: 'Bitte geben Sie Ihre Passwort ein' }]}
+                    rules={[{ required: true, message: 'Please enter your Password.' }]}
                     className="hp-mb-8"
                 >
                   <Input.Password />
                 </Form.Item>
 
-                <Row align="middle" justify="space-between">
-                  <Form.Item name="remember" valuePropName="checked" className="hp-mb-0">
-                    <Checkbox>Eingeloggt bleiben</Checkbox>
-                  </Form.Item>
-
-                  <Link
-                      className="hp-button hp-text-color-black-80 hp-text-color-dark-40"
-                      to="/pages/authentication/recover-password"
-                  >
-                    Passwort Vergessen?
-                  </Link>
-                </Row>
-
                 <Form.Item className="hp-mt-16 hp-mb-8">
                   <Button block type="primary" htmlType="submit" loading={loading}>
-                    Eingloggen
+                    Log In
                   </Button>
                 </Form.Item>
               </Form>

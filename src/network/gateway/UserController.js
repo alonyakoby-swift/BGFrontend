@@ -92,6 +92,18 @@ class UserController {
         return this.apiService.get(`users/search?${queryString}`);
     }
 
+    /**
+     * Override password for a user by ID
+     * @param {string} userId - The UUID of the user
+     * @param {string} newPassword - The new password to set
+     * @returns {Promise<HTTPStatus>} Status of the operation
+     */
+    async overridePassword(userId, newPassword) {
+        const passwordData = {
+            newPassword
+        };
+        return this.apiService.post(`users/${userId}/override`, passwordData);
+    }
 }
 
 export default UserController;
