@@ -12,6 +12,8 @@ import Login from '../view/pages/authentication/login';
 import { useAuth } from '../network/authContext';
 import PrivateRoute from '../network/privateRoute';
 import PublicRoute from '../network/publicRoute';
+import UserIndex from '../view/pages/users';
+import Profile from '../view/pages/profile/index'; // Main user profile container
 
 /**
  * Main Router component to define the application's routing structure.
@@ -132,6 +134,10 @@ export default function Router() {
 
         {/* Private Routes */}
         {ResolveRoutes()}
+
+        {/* Profile and User Routes */}
+        <PrivateRoute path="/users" exact component={UserIndex} />
+        <PrivateRoute path="/users/detail/:id" component={Profile} />
 
         {/* Redirect to dashboard if authenticated */}
         <Route exact path="/">
