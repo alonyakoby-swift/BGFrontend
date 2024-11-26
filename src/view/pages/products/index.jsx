@@ -22,6 +22,7 @@ export default function ProductIndex() {
 
     const productController = new ProductController();
 
+    // Fetch all products
     const fetchProducts = async (page, pageSize) => {
         setLoading(true);
         try {
@@ -38,20 +39,26 @@ export default function ProductIndex() {
         setLoading(false);
     };
 
-    const handleSearch = async () => {
+    // Fetch filtered products
+    const fetchFilteredProducts = async (page, pageSize) => {
         setLoading(true);
         try {
-            const queryParams = {};
+            const queryParams = {
+                page,
+                pageSize,
+            };
             if (searchQuery) queryParams.query = searchQuery;
             if (brand) queryParams.brand = brand;
             if (category) queryParams.category = category;
             if (subcategory) queryParams.subcategory = subcategory;
 
             const response = await productController.searchProducts(queryParams);
+
+            // Set productsData and pagination based on response
             setProductsData(response);
             setPagination({
-                current: 1,
-                pageSize: pagination.pageSize,
+                current: page,
+                pageSize,
                 total: response.length,
             });
         } catch (error) {
@@ -60,14 +67,28 @@ export default function ProductIndex() {
         setLoading(false);
     };
 
+    // Handle search
+    const handleSearch = () => {
+        fetchFilteredProducts(1, pagination.pageSize);
+    };
+
+    // Handle pagination change
+    const handleTableChange = (newPagination) => {
+        if (searchQuery || brand || category || subcategory) {
+            // Paginate the filtered results
+            fetchFilteredProducts(newPagination.current, newPagination.pageSize);
+        } else {
+            // Fetch all products
+            fetchProducts(newPagination.current, newPagination.pageSize);
+        }
+    };
+
+    // Initial fetch on mount
     useEffect(() => {
         fetchProducts(pagination.current, pagination.pageSize);
     }, []);
 
-    const handleTableChange = (pagination) => {
-        fetchProducts(pagination.current, pagination.pageSize);
-    };
-
+    // Table columns configuration
     const columns = [
         {
             title: "Article Code",
@@ -114,6 +135,7 @@ export default function ProductIndex() {
         },
     ];
 
+    // Brands list
     const brandsList = [
         "None",
         "MASTERPRO",
@@ -260,13 +282,15 @@ export default function ProductIndex() {
                         </Row>
                     </Col>
                     <Col>
-                        <Button onClick={() => {
-                            setSearchQuery("");
-                            setBrand("");
-                            setCategory("");
-                            setSubcategory("");
-                            fetchProducts(pagination.current, pagination.pageSize);
-                        }}>
+                        <Button
+                            onClick={() => {
+                                setSearchQuery("");
+                                setBrand("");
+                                setCategory("");
+                                setSubcategory("");
+                                fetchProducts(1, pagination.pageSize);
+                            }}
+                        >
                             Reset
                         </Button>
                     </Col>
