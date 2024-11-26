@@ -50,7 +50,7 @@ const PagesRoutes = [
     layout: "VerticalLayout",
   },
   {
-    path: "/settings/exceptions",
+    path: "/exceptions",
     exact: true,
     component: lazy(() => import("../../view/pages/exceptions")),
     layout: "VerticalLayout",
