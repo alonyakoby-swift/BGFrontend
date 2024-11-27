@@ -86,7 +86,7 @@ export default function Home() {
                 <div className="hp-mt-16">
                   <p><strong>Translated:</strong> {stats.translated} ({((stats.translated / totalTranslations) * 100).toFixed(2)}%)</p>
                   <p><strong>Pending:</strong> {stats.pending} ({((stats.pending / totalTranslations) * 100).toFixed(2)}%)</p>
-                  <p><strong>Completed:</strong> {stats.completed} ({((stats.completed / totalTranslations) * 100).toFixed(2)}%)</p>
+                  <p><strong>Translated and AI Verified:</strong> {stats.completed} ({((stats.completed / totalTranslations) * 100).toFixed(2)}%)</p>
                 </div>
               </Card>
             </Col>

@@ -52,7 +52,7 @@ export default function PageContent(props) {
                 <Col span={24}>
                   <Breadcrumb className="hp-d-flex hp-flex-wrap hp-mt-24">
                     <Breadcrumb.Item>
-                      <Link to="/" className="hp-text-color-black-0 hp-hover-text-color-primary-2">Home</Link>
+                      <Link to="/" className="hp-text-color-black-0 hp-hover-text-color-primary-2">Dashboard</Link>
                     </Breadcrumb.Item>
 
                     {
