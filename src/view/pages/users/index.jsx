@@ -124,14 +124,6 @@ export default function UserIndex() {
             <Col span={24}>
                 <PageContent
                     title="Users Page"
-                    breadcrumb={[
-                        {
-                            title: "Pages",
-                        },
-                        {
-                            title: "Users Page",
-                        },
-                    ]}
                 />
             </Col>
             <Col span={24}>

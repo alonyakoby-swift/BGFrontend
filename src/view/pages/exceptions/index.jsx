@@ -130,14 +130,6 @@ export default function ExceptionIndex() {
             <Col span={24}>
                 <PageContent
                     title="Exceptions Page"
-                    breadcrumb={[
-                        {
-                            title: "Pages",
-                        },
-                        {
-                            title: "Exceptions Page",
-                        },
-                    ]}
                 />
             </Col>
             <Col span={24}>

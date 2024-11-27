@@ -361,14 +361,6 @@ export default function ProductIndex() {
             <Col span={24}>
                 <PageContent
                     title="Products Page"
-                    breadcrumb={[
-                        {
-                            title: "Pages",
-                        },
-                        {
-                            title: "Products Page",
-                        },
-                    ]}
                 />
             </Col>
             <Col span={24}>

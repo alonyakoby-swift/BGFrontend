@@ -323,7 +323,6 @@ export default function ProductDetail() {
                         title="Product Detail"
                         breadcrumb={[
                             { title: "Products", link: "/products" },
-                            { title: "Product Detail" },
                         ]}
                     />
                     <Row gutter={[32, 32]} style={{ marginTop: "20px" }}>

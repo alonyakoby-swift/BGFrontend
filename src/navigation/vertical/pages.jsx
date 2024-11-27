@@ -9,25 +9,25 @@ const pages = [
   {
     id: 'dashboard',
     title: <IntlMessages id="sidebar-pages-dashboard" />,
-    icon: <i className="ph-fill ph-note-blank" />,
+    icon: <i className="ph-fill  ph-gauge" />,
     navLink: '/dashboard',
   },
   {
     id: 'products-page',
     title: <IntlMessages id="sidebar-pages-products" />,
-    icon: <i className="ph-fill ph-file-x" />,
+    icon: <i className="ph-fill  ph-squares-four" />,
     navLink: '/products',
   },
   {
     id: 'exceptions-page',
     title: <IntlMessages id="sidebar-pages-exceptions" />,
-    icon: <i className="ph-fill ph-file-x" />,
+    icon: <i className="ph-fill ph-translate" />,
     navLink: '/exceptions',
   },
   {
     id: 'users-page',
     title: <IntlMessages id="sidebar-pages-users" />,
-    icon: <i className="ph-fill ph-file-x" />,
+    icon: <i className="ph-fill  ph-users" />,
     navLink: '/users',
   }
 ];
