@@ -15,13 +15,13 @@ const pages = [
   {
     id: 'products-page',
     title: <IntlMessages id="sidebar-pages-products" />,
-    icon: <i className="ph-fill  ph-squares-four" />,
+    icon: <i className="ph-fill  ph-translate" />,
     navLink: '/products',
   },
   {
     id: 'exceptions-page',
     title: <IntlMessages id="sidebar-pages-exceptions" />,
-    icon: <i className="ph-fill ph-translate" />,
+    icon: <i className="ph-fill  ph-shield-check" />,
     navLink: '/exceptions',
   },
   {
